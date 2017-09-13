@@ -1,9 +1,15 @@
 #!/bin/bash
 
-#nobucketfound="bucket does not exist"
-
 echo "[*]Checking if AWS credentials are present"
 sleep 1
+
+if [[ -f ~/.aws/credentials ]] ; then
+ echo "[+]Fetching Credentials" 
+else
+ echo "[-]Please Configure AWS CLI"
+ exit 
+fi
+
 #Add test to check if the ~/.aws/config file is present
 
 response=$(curl --write-out %{http_code} --silent --output /dev/null s3.amazonaws.com/$1)
@@ -18,7 +24,6 @@ else
  fi
 fi
  
-#Add test to check if the bucket name is valid/present or not
 sleep 1
 touch aws-test.txt
 aws s3 ls s3://$1 > aws-test.txt
